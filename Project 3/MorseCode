@@ -1,0 +1,38 @@
+public class MorseCode  {
+	private char character;
+	private String encoding;
+	// Non- default constructor 
+	MorseCode (char character, String encoding){
+		try {
+				if((int)character>32 || (int)character<90 || encoding == null || encoding == "")
+				this.character = character;
+				this.encoding = encoding;
+			}
+		catch(Exception e)
+		{
+			String msg = "This character << the invalid character>> is not a supported Morse character";
+			System.out.println(msg);
+		}
+		
+}
+	// Getter and setter. 
+	public void setCharacter(char character) {
+		this.character = character;
+	}
+	
+	public char getCharacter() {
+		return character;
+	}
+	public void setEncoding(String encoding) {
+		this.encoding = encoding;
+		
+	}
+	
+	public String getEncoding() {
+		return encoding;
+		
+	}
+	
+}
+
+
