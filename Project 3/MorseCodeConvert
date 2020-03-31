@@ -1,0 +1,101 @@
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.*;
+import java.io.File;
+
+public class MorseCodeConvert {
+    //  member variable
+    public ArrayList<MorseCode> listCodes =new ArrayList<MorseCode>(); //creates an arraylist object of MorseCode type
+
+    // non-default constructor
+    MorseCodeConvert(String s) throws FileNotFoundException {    //FileNotFoundException deals with file IO
+
+    try {
+        Scanner fileInput = new Scanner(new File("MorseCodes.txt"));
+        while (fileInput.hasNext()) {
+            String nextLine = fileInput.nextLine();
+            if (nextLine.equals("exit")) {
+                break;
+            }
+            MorseCode morseCode = new MorseCode('a', nextLine);
+            listCodes.add(morseCode);
+        }
+        fileInput.close();
+    } catch (FileNotFoundException e) {
+        System.out.println("Failed to open file : <<"+s+" >>");
+    }
+    
+    }
+
+    // printEncodingList() => void
+    public void printEncodingList() {
+        for (MorseCode morseCode : listCodes) {
+            System.out.println(morseCode);
+        }
+    }
+    //Accepts a string parameter and prints the corresponding Morse code for that string.
+    public void encodeString(String s) {
+        if (s == "" || s == null)
+        {
+            System.out.println("");
+        }
+        else
+        {
+            int length = s.length();
+            for (int i = 0; i < length; i++) {
+                char c = s.charAt(i);
+                int x = c;
+                if (x > 96 && x < 123)
+                    c = Character.toUpperCase(c);
+                if (c == ' ')
+                {
+                    System.out.printf(" ");
+                }
+                else
+                {
+                    for (int j = 0; j < listCodes.size(); j++) {
+
+                        if (c == listCodes.get(j).getCharacter()) {
+
+                            System.out.printf(listCodes.get(j).getEncoding() + " ");
+                            break;
+                        }
+
+                        if (listCodes.get(j + 1) == null) {
+                            System.out.printf("? ");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        System.out.printf("%n");
+    }
+
+    public void encodeFile(String s) throws FileNotFoundException{   //this function opens the file and prints the content
+                                                                    // of the files also the encoded morse code
+
+       try
+           {
+               File  file =new File(s);                      //creates file object for an external file
+               Scanner fileInput=new Scanner(file);         //reads the file
+               while (fileInput.hasNext()) {               //loop through the file and reads every element
+                   String nextLine = fileInput.nextLine();//search for element
+                   System.out.print(nextLine+" ");       //print out the element
+                   encodeString(nextLine);              //encode the element
+               }
+               fileInput.close();
+
+           }
+
+        catch (FileNotFoundException e){            //if failed to find the file then it throws this exception
+                                                   //and print out the message
+               System.out.println("Attempt to open file");
+            }
+
+
+    }
+
+}
+
+
